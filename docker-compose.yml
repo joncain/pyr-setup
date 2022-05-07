@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  pyr:
+    image: "pyr"
+    container_name: "pyr"
+    tty: true
+    entrypoint: ["/bin/bash", "/root/entrypoint.sh"]
+    cmd: ["cd", "/app/pyr/clients/monat", "&&", "rails", "s", "puma", "-b 0.0.0.0"]
+    volumes:
+      - .:/app/pyr
+      - ~/.netrc:/root/.netrc:ro
+      - ../pyr-gems/local:/usr/share/rvm/gems/ruby-2.6.6
+      - ../pyr-gems/global:/usr/share/rvm/gems/ruby-2.6.6@global
+      - ./entrypoint.sh:/root/entrypoint.sh
+    ports:
+      - 3000:3000
+  mysql:
+    image: mysql:5.7
+    container_name: "db"
+    environment:
+      - MYSQL_ROOT_PASSWORD=pyr
+    volumes:
+      - ../pyr-mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+  mongo:
+    image: mongo:3.5
+    container_name: "mongo"
+    volumes:
+      - ../pyr-mongo:/data/db
+    ports:
+      - 27017:27017
+  redis:
+    image: redis:latest
+    container_name: "redis"
+    ports:
+      - 6379:6379
+  elasticsearch:
+    image: elasticsearch:6.8.23
+    container_name: "elasticsearch"
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
