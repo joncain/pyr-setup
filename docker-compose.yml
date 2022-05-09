@@ -5,7 +5,7 @@ services:
     container_name: "pyr"
     tty: true
     entrypoint: ["/bin/bash", "/root/entrypoint.sh"]
-    cmd: ["cd", "/app/pyr/clients/monat", "&&", "rails", "s", "puma", "-b 0.0.0.0"]
+    command: ["/app/pyr/up.sh"]
     volumes:
       - .:/app/pyr
       - ~/.netrc:/root/.netrc:ro

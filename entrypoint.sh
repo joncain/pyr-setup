@@ -20,6 +20,13 @@ else
   echo "ImageMagick already installed...skip install"
 fi
 
+echo "Adding /app/pyr to git safe dirs"
 git config --global --add safe.directory /app/pyr
 
+echo "Modifying /etc/hosts"
+# https://github.com/locomotivecms/wagon/issues/340
+# strip "localhost" from loopback
+cat /etc/hosts | sed 's/::1\tlocalhost ip6-localhost ip6-loopback/::1 ip6-localhost ip6-loopback/' | sponge /etc/hosts
+
+echo $@
 $@

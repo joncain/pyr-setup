@@ -2,10 +2,10 @@ FROM ubuntu:bionic
 
 # Install utils
 RUN apt-get update && \
-    apt-get install -y software-properties-common vim git \
+    apt-get install -y software-properties-common vim git moreutils \
     libmysqlclient-dev \
-    wget \
     freetds-dev \
+    wget \
     ffmpeg ffmpegthumbnailer exiftool
 
 # Install RVM
@@ -20,5 +20,10 @@ COPY ./magick-install.sh /root
 RUN /root/magick-install.sh
 
 COPY ./entrypoint.sh /root
+WORKDIR /app/pyr
 
-CMD ["/bin/bash"]
+# Note: ENTRYPOINT and CMD cannot both be string values. They can both be array values,
+# and ENTRYPOINT can be an array value and CMD can be a string value; but if ENTRYPOINT
+# is a string value, CMD will be ignored. This is an unfortunate but unavoidable
+# consequence of the way argument strings are converted to arrays. This is among the
+# reasons I always recommend specifying arrays whenever possible.
