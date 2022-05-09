@@ -1,8 +1,11 @@
 #!/bin/bash
+
+version="ImageMagick-6.9.12-48"
+
 cd /root
-wget https://download.imagemagick.org/ImageMagick/download/ImageMagick-6.9.12-47.tar.gz
-tar xzvf ImageMagick-6.9.12-47.tar.gz
-cd ImageMagick-6.9.12-47
+wget "https://download.imagemagick.org/ImageMagick/download/${version}.tar.gz"
+tar xzvf "${version}.tar.gz"
+cd "${version}"
 ./configure
 make
 make install
