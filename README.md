@@ -34,8 +34,8 @@ You could also map your SSH keys into the container if you would rather do that.
 Run the pyr container. This will run the entrypoint script and do the following:
 
 * Install Nokogiri & Rails (one-time only)
-* Add the /app/pyr to git safe dirs
-* Modify /etc/hosts
+* Add `/app/pyr` to git safe dirs
+* Modify `/etc/hosts`
 * Leave you at a bash prompt for the next step...
 
 ```bash
@@ -68,7 +68,7 @@ grant all on *.* to 'pyr'@'%';
 
 Leave this terminal open, you will need to run more SQL commands.
 
-# Db Setup
+# Db setup
 
 ```bash
 # run on: pyr container
@@ -91,7 +91,7 @@ bundle exec rake pyr:security:load
 bundle exec rake pyr:sample_data:load
 ```
 
-# Run Pyr
+# Run pyr
 At this point you can exit the pyr & db container terminals. Next run
 the pyr stack (it may take a minute or so on the first run as it init-
 ializes.)
