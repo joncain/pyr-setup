@@ -4,7 +4,7 @@ services:
     image: "pyr"
     container_name: "pyr"
     tty: true
-    entrypoint: ["/bin/bash", "/root/entrypoint.sh"]
+    entrypoint: ["/root/entrypoint.sh"]
     command: ["/app/pyr/up.sh"]
     volumes:
       - .:/app/pyr
