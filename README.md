@@ -4,7 +4,7 @@ This is a collection of scripts to assist you in setting up a local instance of 
 is not a stand-alone project. It is intended to be checked out next to `pyr` and even copied
 into your `pyr` directory during the setup process.
 
-It is highly likely this will be a fairly interactive process due to issues with migrations
+It is highly likely this will be an interactive process due to issues with migrations
 and gem dependencies. But, the intent is to remove as much of the complexity and as many of
 the environmental issues as possible.
 
@@ -32,7 +32,7 @@ the environmental issues as possible.
   password my-github-personal-access-token
   ```
 
-  Alternatively, you could also map your SSH keys into the container if you would rather do that.
+  Alternatively, you could map your SSH keys into the container.
 
 ## Clone this repo
 
@@ -96,7 +96,7 @@ cd client/monat
 bundle install
 ```
 
-If you have issues, make the required changes to your code like you normally
+If you have errors, make the required changes to your code like you normally
 would (on the host machine) and then re-run the bundle commands on the `pyr`
 container.
 
@@ -115,8 +115,8 @@ You should now be at a mysql CLI prompt:
 
 ```bash
 # execute on: db container
-create user 'pyr'@'%' identified by 'pyr';
-grant all on *.* to 'pyr'@'%';
+CREATE USER 'pyr'@'%' IDENTIFIED BY 'pyr';
+GRANT ALL ON *.* TO 'pyr'@'%';
 ```
 
 Leave this connection open, you will need to run more SQL commands
@@ -146,7 +146,7 @@ bundle exec rake pyr:sample_data:load
 ```
 
 ## Run pyr
-At this point you can exit the pyr & db container terminals. Next run
+At this point you can exit the pyr & db container terminals. Next, run
 the pyr stack (it may take a minute or so on the first run as it initializes.)
 
 ```bash
