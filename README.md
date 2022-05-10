@@ -29,6 +29,28 @@ password my-github-personal-access-token
 
 You could also map your SSH keys into the container if you would rather do that.
 
+# Update Pyr config
+
+Since the services will be running in containers, you will need to modify the host names for mysql,
+mongo, and elasticsearch. Modify `core/config/config.yml` and use the container names as the host
+name.
+
+E.g., 
+
+```bash
+database_host: db
+
+mongodb_server:
+- mongo:27017
+
+elasticsearch:
+    host: elasticsearch
+
+redis_server: redis:6379
+rails_cache_uri: redis://redis:6379/0/cache
+identity_cache_uri: redis://redis:6379/1/cache
+```
+
 # Bundle install
 
 This will run the entrypoint script and do the following:
