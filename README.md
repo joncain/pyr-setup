@@ -1,6 +1,12 @@
 # Copy Files
 
-Copy the files from this repo into your pyr project directory.
+Copy the following files from this repo into your pyr project directory.
+
+* Dockerfile
+* docker-compose.yml
+* up.sh
+* entrypoint.sh
+* magick-install.sh
 
 # Build Pyr Image
 
