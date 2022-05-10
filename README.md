@@ -1,6 +1,6 @@
 # Copy Files
 
-Copy these files into your pyr project directory
+Copy the files from this repo into your pyr project directory.
 
 # Build Pyr Image
 
@@ -9,9 +9,7 @@ Copy these files into your pyr project directory
 docker build -t pyr .
 ```
 
-# Create a .netrc
-
-[See more...](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html)
+# Create a .netrc file
 
 This file will be mapped from the host machine (`~/.netrc`) to the pyr container. It is required
 to pull gem sources from github. The file should contain git auth info. Below is a sample file
@@ -27,11 +25,13 @@ login joncain
 password my-github-personal-access-token
 ```
 
+[See more...](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html)
+
 You could also map your SSH keys into the container if you would rather do that.
 
-# Pyr prerequisites
+# Bundle install
 
-Run the pyr container. This will run the entrypoint script and do the following:
+This will run the entrypoint script and do the following:
 
 * Install Nokogiri & Rails (one-time only)
 * Add `/app/pyr` to git safe dirs
@@ -68,7 +68,7 @@ grant all on *.* to 'pyr'@'%';
 
 Leave this terminal open, you will need to run more SQL commands.
 
-# Db setup
+# Db setup/migrations
 
 ```bash
 # run on: pyr container
@@ -93,12 +93,18 @@ bundle exec rake pyr:sample_data:load
 
 # Run pyr
 At this point you can exit the pyr & db container terminals. Next run
-the pyr stack (it may take a minute or so on the first run as it init-
-ializes.)
+the pyr stack (it may take a minute or so on the first run as it initializes.)
 
 ```bash
 # run on: host
 docker compose up -d
 ```
+
+If you're having trouble for some reason, you can view the pyr output by running:
+
+```bash
+docker logs -f pyr
+```
+
 
 Confirm in browser: http://lvh.me:3000
