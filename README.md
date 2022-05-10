@@ -50,22 +50,14 @@ Copy the following files from `pyr-setup` into your `pyr` directory.
 * entrypoint.sh
 * magick-install.sh
 
-## Build Pyr Image
-
-```bash
-# execute on: host
-cd your-pyr-dir
-docker build -t pyr .
-```
-
 ## Update Pyr config
 
 Since the services will be running in separate containers, you will need to modify the host name for mysql,
 mongo, redis, and elasticsearch.
 
-Modify `core/config/config.yml` and use the container names for the host name.
+Modify `core/config/config.yml` in your `pyr` directory and use the container names for the host name.
 
-E.g., 
+E.g.,
 
 ```bash
 database_host: db
@@ -81,14 +73,22 @@ rails_cache_uri: redis://redis:6379/0/cache
 identity_cache_uri: redis://redis:6379/1/cache
 ```
 
-## Bundle install
+## Build Pyr Image
 
-Open a bash prompt on the `pyr` container:
+```bash
+# execute on: host
+cd your-pyr-dir
+docker build -t pyr .
+```
+
+## Bundle install
 
 ```bash
 # execute on: host
 docker compose run pyr bash
 ```
+
+You should now have a bash prompt on the `pyr` container.
 
 ```bash
 # execute on: pyr container
@@ -96,9 +96,13 @@ cd client/monat
 bundle install
 ```
 
+If you have issues, make the required changes to your code like you normally
+would (on the host machine) and then re-run the bundle commands on the `pyr`
+container.
+
 ## Create pyr db user
 
-Connect to the db container:
+In a new terminal:
 
 ```bash
 # execute on: host
@@ -106,6 +110,8 @@ Connect to the db container:
 docker compose up mysql -d
 docker exec -it db mysql -u root -p
 ```
+
+You should now be at a mysql CLI prompt:
 
 ```bash
 # execute on: db container
@@ -119,18 +125,18 @@ after you create the client db.
 ## Db setup/migrations
 
 ```bash
-# run on: pyr container
+# execute on: pyr container
 cd /app/pyr/clients/monat
 bundle exec rake rules:disable db:create
 ```
 
 ```bash
-# run on: db container
+# execute on: db container
 ALTER DATABASE pyr_monat_dev CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
 
 ```bash
-# run on: pyr container
+# execute on: pyr container
 SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
 bundle exec rake rules:disable pyr:setup
 bundle exec rake rules:disable pyr:shop:setup
@@ -144,7 +150,7 @@ At this point you can exit the pyr & db container terminals. Next run
 the pyr stack (it may take a minute or so on the first run as it initializes.)
 
 ```bash
-# run on: host
+# execute on: host
 docker compose up -d
 ```
 
@@ -153,6 +159,5 @@ If you're having trouble for some reason, you can view the pyr output by running
 ```bash
 docker logs -f pyr
 ```
-
 
 Confirm in browser: http://lvh.me:3000
