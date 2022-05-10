@@ -1,6 +1,48 @@
-# Copy Files
+# Pyr-Setup
 
-Copy the following files from this repo into your pyr project directory.
+This is a collection of scripts to assist you in setting up a local instance of Pyr. This
+is not a stand-alone project. It is intended to be checked out next to `pyr` and even copied
+into your `pyr` directory during the setup process.
+
+It is highly likely this will be a fairly interactive process due to issues with migrations
+and gem dependencies. But, the intent is to remove as much of the complexity and as many of
+the environmental issues as possible.
+
+## Prerequisites
+
+* Docker >= 20.10.14
+* Pyr (this was developed against the 2.3-MNT branch)
+* .netrc
+  
+  If you don't already have one, you need to create a `~/.netrc` file on your host machine.
+
+  [See more...](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html)
+
+  This file will be mapped into the pyr container and is required to pull gem sources from private
+  github repos. The file should contain git auth info. Below is a sample file that represents what I have on
+  my machine.
+
+  ```bash
+  machine github.com
+  login joncain
+  password my-github-personal-access-token
+
+  machine api.github.com
+  login joncain
+  password my-github-personal-access-token
+  ```
+
+  Alternatively, you could also map your SSH keys into the container if you would rather do that.
+
+## Clone this repo
+
+```bash
+git clone git@github.com:joncain/pyr-setup.git
+```
+
+## Copy files
+
+Copy the following files from `pyr-setup` into your `pyr` directory.
 
 * Dockerfile
 * docker-compose.yml
@@ -8,38 +50,20 @@ Copy the following files from this repo into your pyr project directory.
 * entrypoint.sh
 * magick-install.sh
 
-# Build Pyr Image
+## Build Pyr Image
 
 ```bash
-# run on: host
+# execute on: host
+cd your-pyr-dir
 docker build -t pyr .
 ```
 
-# Create a .netrc file
+## Update Pyr config
 
-This file will be mapped from the host machine (`~/.netrc`) to the pyr container. It is required
-to pull gem sources from github. The file should contain git auth info. Below is a sample file
-that represents what I have.
+Since the services will be running in separate containers, you will need to modify the host name for mysql,
+mongo, redis, and elasticsearch.
 
-```text
-machine github.com
-login joncain
-password my-github-personal-access-token
-
-machine api.github.com
-login joncain
-password my-github-personal-access-token
-```
-
-[See more...](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html)
-
-You could also map your SSH keys into the container if you would rather do that.
-
-# Update Pyr config
-
-Since the services will be running in containers, you will need to modify the host names for mysql,
-mongo, and elasticsearch. Modify `core/config/config.yml` and use the container names as the host
-name.
+Modify `core/config/config.yml` and use the container names for the host name.
 
 E.g., 
 
@@ -57,46 +81,42 @@ rails_cache_uri: redis://redis:6379/0/cache
 identity_cache_uri: redis://redis:6379/1/cache
 ```
 
-# Bundle install
+## Bundle install
 
-This will run the entrypoint script and do the following:
-
-* Install Nokogiri & Rails (one-time only)
-* Add `/app/pyr` to git safe dirs
-* Modify `/etc/hosts`
-* Leave you at a bash prompt for the next step...
+Open a bash prompt on the `pyr` container:
 
 ```bash
-# run on: host
+# execute on: host
 docker compose run pyr bash
 ```
 
 ```bash
-# run on: pyr container
+# execute on: pyr container
 cd client/monat
 bundle install
 ```
 
-# Create pyr db user
+## Create pyr db user
 
-Open a new terminal to connect to the mysql container.
-The root password for the mysql instance is `pyr`.
+Connect to the db container:
 
 ```bash
-# run on: host
+# execute on: host
+# The root password is "pyr"
 docker compose up mysql -d
 docker exec -it db mysql -u root -p
 ```
 
 ```bash
-# run on: db container
+# execute on: db container
 create user 'pyr'@'%' identified by 'pyr';
 grant all on *.* to 'pyr'@'%';
 ```
 
-Leave this terminal open, you will need to run more SQL commands.
+Leave this connection open, you will need to run more SQL commands
+after you create the client db.
 
-# Db setup/migrations
+## Db setup/migrations
 
 ```bash
 # run on: pyr container
@@ -119,7 +139,7 @@ bundle exec rake pyr:security:load
 bundle exec rake pyr:sample_data:load
 ```
 
-# Run pyr
+## Run pyr
 At this point you can exit the pyr & db container terminals. Next run
 the pyr stack (it may take a minute or so on the first run as it initializes.)
 
