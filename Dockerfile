@@ -6,7 +6,7 @@ RUN apt-get update && \
     libmysqlclient-dev \
     freetds-dev \
     wget \
-    ffmpeg ffmpegthumbnailer exiftool
+    ffmpeg ffmpegthumbnailer exiftool libmagickwand-dev
 
 # Install RVM
 RUN apt-add-repository -y ppa:rael-gc/rvm && \
