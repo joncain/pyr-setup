@@ -138,6 +138,7 @@ ALTER DATABASE pyr_monat_dev CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```bash
 # execute on: pyr container
 SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
+bundle exec rake rules:disable db:migrate
 bundle exec rake rules:disable pyr:setup
 bundle exec rake rules:disable pyr:shop:setup
 bundle exec rake db:mongoid:create_indexes
