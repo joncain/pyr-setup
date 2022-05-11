@@ -1,12 +1,15 @@
 # Pyr-Setup
 
 This is a collection of scripts to assist you in setting up a local instance of Pyr. This
-is not a stand-alone project. It is intended to be checked out next to `pyr` and even copied
-into your `pyr` directory during the setup process.
+is not a stand-alone project. It is intended to be cloned into your `pyr` directory. I
+recommend that you add `pyr-setup` to your .gitignore file.
 
 It is highly likely this will be an interactive process due to issues with migrations
 and gem dependencies. But, the intent is to remove as much of the complexity and as many of
 the environmental issues as possible.
+
+NOTE: References to `pyr` as a directory represent your local pyr repo. If you have named it
+something else, adjust the instructions accordingly.
 
 ## Prerequisites
 
@@ -37,25 +40,15 @@ the environmental issues as possible.
 ## Clone this repo
 
 ```bash
-git clone git@github.com:joncain/pyr-setup.git
+pyr$ git clone git@github.com:joncain/pyr-setup.git
 ```
-
-## Copy files
-
-Copy the following files from `pyr-setup` into your `pyr` directory.
-
-* Dockerfile
-* docker-compose.yml
-* up.sh
-* entrypoint.sh
-* magick-install.sh
 
 ## Update Pyr config
 
 Since the services will be running in separate containers, you will need to modify the host name for mysql,
 mongo, redis, and elasticsearch.
 
-Modify `core/config/config.yml` in your `pyr` directory and use the container names for the host name.
+Modify `pyr/core/config/config.yml` and use the container names for the host name.
 
 E.g.,
 
@@ -77,23 +70,22 @@ identity_cache_uri: redis://redis:6379/1/cache
 
 ```bash
 # execute on: host
-cd your-pyr-dir
-docker build -t pyr .
+pyr/pyr-setup$ docker build -t pyr .
 ```
 
 ## Bundle install
 
 ```bash
 # execute on: host
-docker compose run pyr bash
+pyr/pyr-setup$ docker compose run pyr bash
 ```
 
 You should now have a bash prompt on the `pyr` container.
 
 ```bash
 # execute on: pyr container
-cd client/monat
-bundle install
+/app/pyr$ cd clients/monat
+/app/pyr/clients/monat$ bundle install
 ```
 
 If you have errors, make the required changes to your code like you normally
@@ -107,8 +99,8 @@ In a new terminal:
 ```bash
 # execute on: host
 # The root password is "pyr"
-docker compose up mysql -d
-docker exec -it db mysql -u root -p
+pyr/pyr-setup$ docker compose up mysql -d
+pyr/pyr-setup$ docker exec -it db mysql -u root -p
 ```
 
 You should now be at a mysql CLI prompt:
@@ -126,8 +118,7 @@ after you create the client db.
 
 ```bash
 # execute on: pyr container
-cd /app/pyr/clients/monat
-bundle exec rake rules:disable db:create
+/app/pyr/clients/monat$ bundle exec rake rules:disable db:create
 ```
 
 ```bash
@@ -137,13 +128,13 @@ ALTER DATABASE pyr_monat_dev CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 ```bash
 # execute on: pyr container
-SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
-bundle exec rake rules:disable db:migrate
-bundle exec rake rules:disable pyr:setup
-bundle exec rake rules:disable pyr:shop:setup
-bundle exec rake db:mongoid:create_indexes
-bundle exec rake pyr:security:load
-bundle exec rake pyr:sample_data:load
+/app/pyr/clients/monat$ SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
+/app/pyr/clients/monat$ bundle exec rake rules:disable db:migrate
+/app/pyr/clients/monat$ bundle exec rake rules:disable pyr:setup
+/app/pyr/clients/monat$ bundle exec rake rules:disable pyr:shop:setup
+/app/pyr/clients/monat$ bundle exec rake db:mongoid:create_indexes
+/app/pyr/clients/monat$ bundle exec rake pyr:security:load
+/app/pyr/clients/monat$ bundle exec rake pyr:sample_data:load
 ```
 
 ## Run pyr
@@ -152,13 +143,13 @@ the pyr stack (it may take a minute or so on the first run as it initializes.)
 
 ```bash
 # execute on: host
-docker compose up -d
+pyr/pyr-setup$ docker compose up -d
 ```
 
 If you're having trouble for some reason, you can view the pyr output by running:
 
 ```bash
-docker logs -f pyr
+pyr/pyr-setup$ docker logs -f pyr
 ```
 
 Confirm in browser: http://lvh.me:3000
