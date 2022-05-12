@@ -40,7 +40,8 @@ something else, adjust the instructions accordingly.
 ## Clone this repo
 
 ```bash
-pyr$ git clone git@github.com:joncain/pyr-setup.git
+cd pyr
+git clone git@github.com:joncain/pyr-setup.git
 ```
 
 ## Update Pyr config
@@ -70,22 +71,24 @@ identity_cache_uri: redis://redis:6379/1/cache
 
 ```bash
 # execute on: host
-pyr/pyr-setup$ docker build -t pyr .
+cd pyr/pyr-setup
+docker build -t pyr .
 ```
 
 ## Bundle install
 
 ```bash
 # execute on: host
-pyr/pyr-setup$ docker compose run pyr bash
+cd pyr/pyr-setup
+docker compose run pyr bash
 ```
 
 You should now have a bash prompt on the `pyr` container.
 
 ```bash
 # execute on: pyr container
-/app/pyr$ cd clients/monat
-/app/pyr/clients/monat$ bundle install
+cd /app/pyr/clients/monat
+bundle install
 ```
 
 If you have errors, make the required changes to your code like you normally
@@ -99,8 +102,9 @@ In a new terminal:
 ```bash
 # execute on: host
 # The root password is "pyr"
-pyr/pyr-setup$ docker compose up mysql -d
-pyr/pyr-setup$ docker exec -it db mysql -u root -p
+cd pyr/pyr-setup
+docker compose up mysql -d
+docker exec -it db mysql -u root -p
 ```
 
 You should now be at a mysql CLI prompt:
@@ -118,7 +122,8 @@ after you create the client db.
 
 ```bash
 # execute on: pyr container
-/app/pyr/clients/monat$ bundle exec rake rules:disable db:create
+cd /app/pyr/clients/monat
+bundle exec rake rules:disable db:create
 ```
 
 ```bash
@@ -128,13 +133,14 @@ ALTER DATABASE pyr_monat_dev CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 ```bash
 # execute on: pyr container
-/app/pyr/clients/monat$ SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
-/app/pyr/clients/monat$ bundle exec rake rules:disable db:migrate
-/app/pyr/clients/monat$ bundle exec rake rules:disable pyr:setup
-/app/pyr/clients/monat$ bundle exec rake rules:disable pyr:shop:setup
-/app/pyr/clients/monat$ bundle exec rake db:mongoid:create_indexes
-/app/pyr/clients/monat$ bundle exec rake pyr:security:load
-/app/pyr/clients/monat$ bundle exec rake pyr:sample_data:load
+cd /app/pyr/clients/monat
+SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
+bundle exec rake rules:disable db:migrate
+bundle exec rake rules:disable pyr:setup
+bundle exec rake rules:disable pyr:shop:setup
+bundle exec rake db:mongoid:create_indexes
+bundle exec rake pyr:security:load
+bundle exec rake pyr:sample_data:load
 ```
 
 ## Run pyr
@@ -143,13 +149,14 @@ the pyr stack (it may take a minute or so on the first run as it initializes.)
 
 ```bash
 # execute on: host
-pyr/pyr-setup$ docker compose up -d
+cd pyr/pyr-setup
+docker compose up -d
 ```
 
 If you're having trouble for some reason, you can view the pyr output by running:
 
 ```bash
-pyr/pyr-setup$ docker logs -f pyr
+docker logs -f pyr
 ```
 
 Confirm in browser: http://lvh.me:3000
