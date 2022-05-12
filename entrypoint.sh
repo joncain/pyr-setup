@@ -22,6 +22,7 @@ fi
 
 echo "Adding /app/pyr to git safe dirs"
 git config --global --add safe.directory /app/pyr
+git config --global url."https://github.com/".insteadOf git://github.com/
 
 echo "Modifying /etc/hosts"
 # https://github.com/locomotivecms/wagon/issues/340
