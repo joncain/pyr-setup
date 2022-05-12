@@ -17,7 +17,7 @@ something else, adjust the instructions accordingly.
 * Pyr (this was developed against the 2.3-MNT branch)
 * .netrc
   
-  If you don't already have one, you need to create a `~/.netrc` file on your host machine.
+  If you don't already have one, you need to create a `~/.netrc` file on your machine.
 
   [See more...](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html)
 
@@ -40,7 +40,7 @@ something else, adjust the instructions accordingly.
 ## Clone this repo
 
 ```bash
-cd pyr
+# execute in your "pyr" directory
 git clone git@github.com:joncain/pyr-setup.git
 ```
 
@@ -70,29 +70,26 @@ identity_cache_uri: redis://redis:6379/1/cache
 ## Build Pyr Image
 
 ```bash
-# execute on: host
-cd pyr/pyr-setup
+# execute on host machine in your pyr/pyr-setup directory
 docker build -t pyr .
 ```
 
 ## Bundle install
 
 ```bash
-# execute on: host
-cd pyr/pyr-setup
+# execute on host machine in your pyr/pyr-setup directory
 docker compose run pyr bash
 ```
 
 You should now have a bash prompt on the `pyr` container.
 
 ```bash
-# execute on: pyr container
-cd /app/pyr/clients/monat
+# execute within the pyr container in the /app/pyr/clients/monat directory
 bundle install
 ```
 
 If you have errors, make the required changes to your code like you normally
-would (on the host machine) and then re-run the bundle commands on the `pyr`
+would (on the host machine) and then re-run the bundle commands within the `pyr`
 container.
 
 ## Create pyr db user
@@ -100,17 +97,16 @@ container.
 In a new terminal:
 
 ```bash
-# execute on: host
+# execute on host machine in the pyr/pyr-setup directory
 # The root password is "pyr"
-cd pyr/pyr-setup
 docker compose up mysql -d
 docker exec -it db mysql -u root -p
 ```
 
-You should now be at a mysql CLI prompt:
+You should now have a mysql CLI prompt:
 
 ```bash
-# execute on: db container
+# execute within the db container at the mysql CLI prompt
 CREATE USER 'pyr'@'%' IDENTIFIED BY 'pyr';
 GRANT ALL ON *.* TO 'pyr'@'%';
 ```
@@ -121,21 +117,18 @@ after you create the client db.
 ## Db setup/migrations
 
 ```bash
-# execute on: pyr container
-cd /app/pyr/clients/monat
+# execute within the pyr container in the /app/pyr/clients/monat directory
 bundle exec rake rules:disable db:create
 ```
 
 ```bash
-# execute on: db container
+# execute within the db container at the mysql CLI prompt
 ALTER DATABASE pyr_monat_dev CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
 
 ```bash
-# execute on: pyr container
-cd /app/pyr/clients/monat
+# execute within the pyr container in the /app/pyr/clients/monat directory
 SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
-bundle exec rake rules:disable db:migrate
 bundle exec rake rules:disable pyr:setup
 bundle exec rake rules:disable pyr:shop:setup
 bundle exec rake db:mongoid:create_indexes
@@ -148,8 +141,7 @@ At this point you can exit the pyr & db container terminals. Next, run
 the pyr stack (it may take a minute or so on the first run as it initializes.)
 
 ```bash
-# execute on: host
-cd pyr/pyr-setup
+# execute on host machine in the pyr/pyr-setup directory
 docker compose up -d
 ```
 
