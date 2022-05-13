@@ -4,15 +4,13 @@ services:
     image: "pyr"
     container_name: "pyr"
     tty: true
-    entrypoint: ["/root/entrypoint.sh"]
-    command: ["/app/pyr/up.sh"]
+    entrypoint: ["/app/pyr/pyr-setup/entrypoint.sh"]
+    command: ["/app/pyr/pyr-setup/up.sh"]
     volumes:
       - ../:/app/pyr
       - ~/.netrc:/root/.netrc:ro
       - ../../pyr-gems/local:/usr/share/rvm/gems/ruby-2.6.6
       - ../../pyr-gems/global:/usr/share/rvm/gems/ruby-2.6.6@global
-      - ./entrypoint.sh:/root/entrypoint.sh
-      - ./up.sh:/app/pyr/up.sh
     ports:
       - 3000:3000
     depends_on:

@@ -11,3 +11,4 @@ make
 make install
 ldconfig /usr/local/lib
 convert --version
+rm "/root/${version}.tar.gz"

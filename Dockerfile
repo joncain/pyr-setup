@@ -19,7 +19,6 @@ RUN apt-add-repository -y ppa:rael-gc/rvm && \
 COPY ./magick-install.sh /root
 RUN /root/magick-install.sh
 
-COPY ./entrypoint.sh /root
 WORKDIR /app/pyr
 
 # Note: ENTRYPOINT and CMD cannot both be string values. They can both be array values,
