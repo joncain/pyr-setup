@@ -29,6 +29,7 @@ services:
     container_name: "mongo"
     volumes:
       - ../../pyr-mongo:/data/db
+      - ./drop_mongo_and_import.sh:/root/drop_mongo_and_import.sh
     ports:
       - 27017:27017
   redis:
