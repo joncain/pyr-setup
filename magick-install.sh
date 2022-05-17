@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="ImageMagick-6.9.12-48"
+version="ImageMagick-6.9.12-49"
 
 cd /root
 wget "https://download.imagemagick.org/ImageMagick/download/${version}.tar.gz"

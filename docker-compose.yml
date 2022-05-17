@@ -9,8 +9,7 @@ services:
     volumes:
       - ../:/app/pyr
       - ~/.netrc:/root/.netrc:ro
-      - ../../pyr-gems/local:/usr/share/rvm/gems/ruby-2.6.6
-      - ../../pyr-gems/global:/usr/share/rvm/gems/ruby-2.6.6@global
+      - ../../pyr-gems:/usr/local/bundle
     ports:
       - 3000:3000
     depends_on:
