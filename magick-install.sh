@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Image Magick keeps incrementing the version (the suffix -xx). This could be
+# more robust by fixing this. It's not that much of a problem since we 
+# infrequently build this image.
 version="ImageMagick-6.9.12-49"
 
 cd /root
