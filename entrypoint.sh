@@ -1,8 +1,5 @@
 #!/bin/bash
 
-. /usr/share/rvm/scripts/rvm
-rvm --default use 2.6.6
-
 rails -v &>/dev/null
 if [[ $? -gt 0 ]]; then
   echo "Installing Rails..."
@@ -12,15 +9,7 @@ else
   echo "Rails already installed...skip install"
 fi
 
-convert --version &>/dev/null
-if [[ $? -gt 0 ]]; then
-  echo "Installing ImageMagick"
-  /root/magick-install.sh
-else
-  echo "ImageMagick already installed...skip install"
-fi
-
-echo "Adding /app/pyr to git safe dirs"
+echo "Adding git config settings"
 git config --global --add safe.directory /app/pyr
 git config --global url."https://github.com/".insteadOf git://github.com/
 
@@ -29,5 +18,9 @@ echo "Modifying /etc/hosts"
 # strip "localhost" from loopback
 cat /etc/hosts | sed 's/::1\tlocalhost ip6-localhost ip6-loopback/::1 ip6-localhost ip6-loopback/' | sponge /etc/hosts
 
-echo $@
+echo "Removing existing server.pid file"
+# This is obviously monat specific.
+rm /app/pyr/clients/monat/tmp/pids/server.pid
+
+echo "Running: ${@}"
 $@

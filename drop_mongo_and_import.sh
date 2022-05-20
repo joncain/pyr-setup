@@ -7,9 +7,8 @@ echo
 
 if ([[ "$result" = "y" ]]); then
 	if [[ -d $dbpath ]]; then
-		echo "Dropping database: $dbname"
 		mongo $dbname --eval "printjson(db.dropDatabase())"
-		mongorestore --db $dbname $dbpath
+		mongorestore -d $dbname $dbpath
 	else
 		echo "Error: Import directory $dbpath does not exist. Aborting"
 		exit 1
