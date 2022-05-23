@@ -134,6 +134,9 @@ bundle exec rake rules:disable pyr:shop:setup
 bundle exec rake db:mongoid:create_indexes
 bundle exec rake pyr:security:load
 bundle exec rake pyr:sample_data:load
+
+# optional
+bundle exec rake rules:disable pyr:createvibeaccounts
 ```
 
 ## Run pyr
