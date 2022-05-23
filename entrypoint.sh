@@ -20,7 +20,7 @@ cat /etc/hosts | sed 's/::1\tlocalhost ip6-localhost ip6-loopback/::1 ip6-localh
 
 echo "Removing existing server.pid file"
 # This is obviously monat specific.
-rm /app/pyr/clients/monat/tmp/pids/server.pid
+rm /app/pyr/clients/monat/tmp/pids/server.pid 2>/dev/null
 
 echo "Running: ${@}"
 $@
