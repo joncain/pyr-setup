@@ -9,7 +9,7 @@ services:
     volumes:
       - ../:/app/pyr
       - ~/.netrc:/root/.netrc:ro
-      - ../../pyr-gems:/usr/local/bundle
+      - ./pyr-gems:/usr/local/bundle
     ports:
       - 3000:3000
     depends_on:
@@ -20,14 +20,14 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=pyr
     volumes:
-      - ../../pyr-mysql:/var/lib/mysql
+      - ./pyr-mysql:/var/lib/mysql
     ports:
       - 3306:3306
   mongo:
     image: mongo:3.5
     container_name: "mongo"
     volumes:
-      - ../../pyr-mongo:/data/db
+      - ./pyr-mongo:/data/db
       - ./drop_mongo_and_import.sh:/root/drop_mongo_and_import.sh
     ports:
       - 27017:27017
