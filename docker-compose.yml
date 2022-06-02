@@ -9,7 +9,7 @@ services:
     volumes:
       - ../:/app/pyr
       - ~/.netrc:/root/.netrc:ro
-      - ./pyr-gems:/usr/local/bundle
+      - ./pyr-gems-${PYR_CLIENT}:/usr/local/bundle
     ports:
       - 3000:3000
     depends_on:
