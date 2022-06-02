@@ -65,6 +65,7 @@ elasticsearch:
 redis_server: redis:6379
 rails_cache_uri: redis://redis:6379/0/cache
 identity_cache_uri: redis://redis:6379/1/cache
+persistent_redis_store_uri: redis://redis:6379/2
 ```
 
 ## Build Pyr Image

@@ -1,4 +1,5 @@
 #!/bin/bash
-cd /app/pyr/clients/monat
-echo "Starting rails server"
+set -x
+client="${1}"
+cd "/app/pyr/clients/${client}"
 rails s puma -b 0.0.0.0
