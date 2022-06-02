@@ -123,6 +123,7 @@ bundle exec rake rules:disable db:create
 ```
 
 ```bash
+# !!ONLY REQUIRED FOR 2.3-MNT!!
 # execute within the db container at the mysql CLI prompt
 ALTER DATABASE pyr_monat_dev CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
