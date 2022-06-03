@@ -85,7 +85,8 @@ docker compose run pyr bash
 You should now have a bash prompt on the `pyr` container.
 
 ```bash
-# execute within the pyr container in the /app/pyr/clients/monat directory
+# execute within the pyr container in the /app/pyr/clients/<client> directory
+su pyr
 bundle install
 ```
 
@@ -118,7 +119,7 @@ after you create the client db.
 ## Db setup/migrations
 
 ```bash
-# execute within the pyr container in the /app/pyr/clients/monat directory
+# execute within the pyr container in the /app/pyr/clients/<client> directory
 bundle exec rake rules:disable db:create
 ```
 
@@ -129,7 +130,7 @@ ALTER DATABASE pyr_monat_dev CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
 
 ```bash
-# execute within the pyr container in the /app/pyr/clients/monat directory
+# execute within the pyr container in the /app/pyr/clients/<client> directory
 SKIP_DB_PATCHES=true bundle exec rake rules:disable db:migrate
 bundle exec rake rules:disable pyr:setup
 bundle exec rake rules:disable pyr:shop:setup
