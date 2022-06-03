@@ -93,7 +93,6 @@ You should now have a bash prompt on the `pyr` container.
 
 ```bash
 # execute within the pyr container in the /app/pyr/clients/<client> directory
-su pyr
 bundle install
 ```
 
