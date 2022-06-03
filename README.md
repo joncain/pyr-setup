@@ -44,6 +44,13 @@ something else, adjust the instructions accordingly.
 git clone git@github.com:joncain/pyr-setup.git
 ```
 
+## Modify the pyr-setup/.env file
+The `.env` file contains ENV variables to be used by docker compose (docker-compose.yml).
+```bash
+# This should match the client folder name, E.g., monat
+PYR_CLIENT=<client>
+```
+
 ## Update Pyr config
 
 Since the services will be running in separate containers, you will need to modify the host name for mysql,
